@@ -1,0 +1,59 @@
+import React from 'react';
+import { View, Text, Image, FlatList } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+
+import cars from '../../../assets/data/cars';
+
+
+
+const HomeMap: React.FC = () => {
+  const getImage = (type: string) => {
+    if (type === 'UberX') {
+        return require('../../../assets/images/top-UberX.png')
+    }
+    if (type === 'Comfort') {
+        return require('../../../assets/images/top-Comfort.png')
+    }
+    return require('../../../assets/images/UberXL.png')
+}
+    return <View>
+      <MapView
+        style={{width: '100%', height: '100%' }}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: 28.450627,
+          longitude: -16.263045,
+          latitudeDelta: 0.0222,
+          longitudeDelta: 0.0121
+        }}
+      >
+      {cars.map((item) => (
+        <Marker
+          key={item.id}
+          coordinate={{ latitude: item.latitude, longitude: item.longitude }}
+        >
+          <Image
+            style={{ width: 70, height: 70, resizeMode: 'contain' }}
+            source={getImage(item.type)}
+          />
+        </Marker>
+      ))}
+      {/* <FlatList
+        data={cars}
+        keyExtractor={(item: any) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Marker
+          coordinate={{ latitude: item.latitude, longitude: item.longitude }}
+        >
+          <Image
+            style={{ width: 70, height: 70, resizeMode: 'contain' }}
+            source={getImage(item.type)}
+          />
+        </Marker>
+        )}
+      /> */}
+      </MapView>
+  </View>;
+}
+
+export default HomeMap;
