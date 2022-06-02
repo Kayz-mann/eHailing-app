@@ -1,13 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 // import { Container } from './styles';
 
 const HomeSearch: React.FC = () => {
+    const navigation = useNavigation();
+    const goToSearch = () => {
+        navigation.navigate('DestinationSearch')
+    }
     return (
         <View>
-            <View style={styles.inputBox}>
+            <Pressable onPress={goToSearch} style={styles.inputBox}>
                 <Text style={styles.inputText}>Where To?</Text>
                 <View style={styles.timeContainer}>
                     <AntDesign name={'clockcircle'} size={16} color="#535353" />
@@ -15,12 +20,12 @@ const HomeSearch: React.FC = () => {
                     <MaterialIcons name="keyboard-arrow-down" size={16} color="black" />
                 </View>
                 <View style={styles.row}>
-                    <View style={styles.iconContainer}>
-                        <AntDesign name={'clockcircle'} size={20} color="#fff" />
+                    <View style={[styles.iconContainer, {backgroundColor: '#218cff'}]}>
+                        <Entypo name={'home'} size={20} color="#fff" />
                     </View>
                     <Text>Spin Nightclub</Text>
                 </View>
-            </View>
+            </Pressable>
       </View>
   );
 }
@@ -50,9 +55,9 @@ const styles = StyleSheet.create({
     row: {
        flexDirection: 'row',
         alignItems: 'center',
-        padding: 15,
+        padding: 20,
         borderBottomWidth: 1,
-       borderColor: '#dbdbdb',
+        borderColor: '#dbdbdb'
     },
     iconContainer: {
         backgroundColor: '#b3b3b3',
