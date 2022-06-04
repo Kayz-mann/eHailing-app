@@ -1,18 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+interface Props {
+    onPress: () => void;
+}
 
-// import { Container } from './styles';
-
-const HomeSearch: React.FC = () => {
-    const navigation = useNavigation();
-    const goToSearch = () => {
-        navigation.navigate('DestinationSearch')
-    }
+const HomeSearch: React.FC<Props> = ({ onPress }) => {
     return (
         <View>
-            <Pressable onPress={goToSearch} style={styles.inputBox}>
+            <Pressable onPress={onPress} style={styles.inputBox}>
                 <Text style={styles.inputText}>Where To?</Text>
                 <View style={styles.timeContainer}>
                     <AntDesign name={'clockcircle'} size={16} color="#535353" />

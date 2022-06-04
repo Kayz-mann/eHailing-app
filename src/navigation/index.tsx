@@ -1,29 +1,22 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack'
-import HomeScreen from '../screens/HomeScreen';
-import DestinationSearch from '../screens/DestinationSearch';
-import SearchResults from '../screens/SearchResults';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeNav from './HomeNav';
+import DrawerNav from './DrawerNav';
 
-const Stack = createStackNavigator();
 
-interface Props {
-    // HomeScreen: undefined;
-    // DestinationSearch: undefined;
+
+export type RootStackParamList = {
+    HomeNav: undefined;
+    DrawerNav: undefined;
 }
 
-const RootNavigator: React.FC<Props> = () => {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+function RootNavigator(): JSX.Element {
     return <NavigationContainer>
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-            }}
-            initialRouteName={"DestinationSearch"}
-        >
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="DestinationSearch" component={DestinationSearch} />
-            <Stack.Screen name="SearchResults" component={SearchResults} />
-      </Stack.Navigator>
+        <Stack.Screen name="HomeNav" component={HomeNav} />
+        <Stack.Screen name="DrawerNav" component={DrawerNav} />
   </NavigationContainer>;
 }
 

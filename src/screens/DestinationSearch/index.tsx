@@ -1,6 +1,9 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, TextInput, StyleSheet, View } from 'react-native';
 import { DescriptionRow, GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { RootStackParamList } from '../../navigation';
+import { HomeNavParamList } from '../../navigation/HomeNav';
 import PlaceRow from './PlaceRow';
 
 
@@ -15,22 +18,34 @@ const workPlace = {
     geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
 };
 
-const DestinationSearch: React.FC = () => {
+type Props = NativeStackScreenProps<HomeNavParamList, 'DestinationSearch'>;
+
+const DestinationSearch = ({ navigation }: Props): JSX.Element => {
     const [originPlace, setOriginPlace] = useState<any>(null);
     const [destinationPlace, setDestinationPlace] = useState(null);
 
     useEffect(() => {
-        if (originPlace && destinationPlace) {
-            console.warn('Redirect to results');
-        }
+        nextStack();
     }, [originPlace, destinationPlace])
+
+
+    const nextStack = () => {
+        if (originPlace && destinationPlace) {
+            navigation.navigate('SearchResults', {
+                originPlace,
+                destinationPlace
+            })
+        }
+    }
+
+
     
   return (
       <SafeAreaView>
             <GooglePlacesAutocomplete
                 placeholder='Where from?'
                 onPress={(data: GooglePlaceData, details: GooglePlaceDetail | null = null) => {
-                        setOriginPlace({data, details})
+                        setOriginPlace({ data, details})
                         // 'details' is provided when fetchDetails = true
                         console.log(data, details);
                     }}
@@ -58,32 +73,33 @@ const DestinationSearch: React.FC = () => {
             <GooglePlacesAutocomplete
                 placeholder='Where to?'
                 onPress={(data: GooglePlaceData, details: GooglePlaceDetail | null = null) => {
-                        setOriginPlace({data, details})
+                        setOriginPlace({ data, details })
                         // 'details' is provided when fetchDetails = true
+                        //setOriginPlace({data, details})
                         console.log(data, details);
                     }}
                 fetchDetails
                 query={{
                         key: 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo',
                         language: 'en',
-              }}
-              renderRow={(data: GooglePlaceData) => <PlaceRow data={data} />}
-              renderDescription={(data: DescriptionRow) => data.description }  //||vicinity
-              predefinedPlaces={[homePlace, workPlace]}
-              suppressDefaultStyles
-              enablePoweredByContainer={false}
-              styles={{
-                  textInput: styles.textInput,
-                  container: {
-                    position: 'absolute',
-                    top: 55,
-                    left: 10,
-                    right: 10
+                    }}
+                    renderRow={(data: GooglePlaceData) => <PlaceRow data={data} />}
+                    renderDescription={(data: DescriptionRow) => data.description }  //||vicinity
+                    predefinedPlaces={[homePlace, workPlace]}
+                    suppressDefaultStyles
+                    enablePoweredByContainer={false}
+                    styles={{
+                        textInput: styles.textInput,
+                        container: {
+                            position: 'absolute',
+                            top: 55,
+                            left: 10,
+                            right: 10
 
-                },
-                  separator: styles.separator
-              }}
-            />
+                        },
+                        separator: styles.separator
+                    }}
+                />
           <View style={styles.circle} />
           <View style={styles.line} />
           <View style={styles.square} />

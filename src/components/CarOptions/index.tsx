@@ -12,6 +12,7 @@ const CarOptions: React.FC = () => {
     return <View>
         {typesData.map((item) => {
             <CarOptionsRow
+                key={item.id}
                 type={item.type}
                 price={item.price}
                 duration={item.duration}
