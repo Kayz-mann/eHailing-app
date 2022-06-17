@@ -8,11 +8,12 @@ import { useRoute } from '@react-navigation/native';
 // import { Container } from './styles';
 
 const SearchResults: React.FC = () => {
-  const route = useRoute();
+  const route = useRoute<any>();
+  const { origin, destination } = route.params
   
   return <View style={{ display: 'flex', justifyContent: 'space-between' }} >
     <View style={{ height: Dimensions.get('window').height - 400}}>
-       <RouteMap />
+       <RouteMap origin={origin} destination={destination} />
       </View>
     <View style={{ height: 400 }}>
       <CarOptions />

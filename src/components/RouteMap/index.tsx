@@ -3,22 +3,36 @@ import { View, Text, Image, FlatList } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
+interface Props {
+  origin: any;
+  destination: any;
+}
 
 
 
-const RouteMap: React.FC = () => {
+const RouteMap: React.FC<Props> = ({ origin, destination }) => {
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo'
 
-    const origin = {
-        latitude: 28.450627,
-        longitude: -16.263045,
-    }
+    // const origin = {
+    //     latitude: 28.450627,
+    //     longitude: -16.263045,
+    // }
+  
+  const originLocation = {
+    longitude: origin.details.geometry.location.lng,
+    latitude: origin.details.geometry.location.lat
+  }
 
-    const destination = {
-        latitude: 28.450627,
-        longitude: -14.263045,
-    }
+  const destinationLocation = {
+    longitude: destination.details.geometry.location.lng,
+    latitude:  destination.details.geometry.location.lat,
+  }
+
+    // const destination = {
+    //     latitude: 28.450627,
+    //     longitude: -14.263045,
+    // }
 
     return <View>
       <MapView
@@ -33,8 +47,8 @@ const RouteMap: React.FC = () => {
         }}
         >
             <MapViewDirections
-                origin={origin}
-                destination={destination}
+                origin={originLocation}
+                destination={destinationLocation}
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeWidth={3}
                 strokeColor="black"

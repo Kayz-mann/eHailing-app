@@ -1,11 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { PermissionsAndroid, Platform, StyleSheet, Text, View } from 'react-native';
+import { PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-import DestinationSearch from './src/screens/DestinationSearch';
-import HomeScreen from './src/screens/HomeScreen';
-import SearchResults from './src/screens/SearchResults';
 import 'react-native-gesture-handler';
+
 import RootNavigator from './src/navigation';
 
 export default function App() {
