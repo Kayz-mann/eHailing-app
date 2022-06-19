@@ -3,11 +3,13 @@ import { Dimensions, View } from 'react-native';
 import CarOptions from '../../components/CarOptions';
 import RouteMap from '../../components/RouteMap';
 import { useRoute } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { HomeNavParamList } from '../../navigation/HomeNav';
 
 
-// import { Container } from './styles';
+type Props = NativeStackScreenProps<HomeNavParamList, 'SearchResults'>;
 
-const SearchResults: React.FC = () => {
+const SearchResults = ({ navigation }: Props): JSX.Element => {
   const route = useRoute<any>();
   const { origin, destination } = route.params
   

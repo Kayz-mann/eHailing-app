@@ -1,12 +1,20 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import 'react-native-gesture-handler';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import Amplify from 'aws-amplify';
+import config from './aws-exports';
+Amplify.configure(config)
 
 import RootNavigator from './src/navigation';
 
-export default function App() {
+
+
+
+ function App() {
   // navigator.geolocation = require('@react-native-community/geolocation');
   const androidPermissions = async () => {
     try {
@@ -56,3 +64,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default withAuthenticator(App);
+
+// add amplify project
+// setup auth
+// amplify add auth
+// setup lambda function
+// create own module
+// configure App.js

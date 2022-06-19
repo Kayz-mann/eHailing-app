@@ -1,9 +1,13 @@
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import React from 'react';
 import { Pressable, View, Text } from 'react-native';
+import { Auth } from 'aws-amplify'
 
 
-const DrawerContent: React.FC = (props: any) => {
+
+
+const DrawerContent: React.FC = ({props, email}: any) => {
+    let user = Auth.currentAuthenticatedUser();
     return (
         <DrawerContentScrollView {...props}>
             <View style={{ backgroundColor: '#212121', padding: 15 }}>
@@ -22,7 +26,10 @@ const DrawerContent: React.FC = (props: any) => {
                     />
                 </View>
                 <View>
-                    <Text style={{ color: '#fff', fontSize: 24 }}>Vadim Savin</Text>
+                    <Text style={{ color: '#fff', fontSize: 24 }}>
+                        Vadim Savin
+                        {/* {user.email} */}
+                    </Text>
                     <Text style={{ color: 'lightgrey'}}>5.00 *</Text>
                 </View>
                 <View
@@ -62,6 +69,14 @@ const DrawerContent: React.FC = (props: any) => {
                 </Pressable>
             </View>
             <DrawerItemList {...props} />
+            <Pressable onPress={() => {Auth.signOut()}}>
+                    <Text
+                        style={{ color: '#fff', paddingVertical: 5, paddingLeft: 20 }}
+                        onPress={() => {}}
+                    >
+                        Logout
+                    </Text>
+                </Pressable>
         </DrawerContentScrollView>
     );
 }

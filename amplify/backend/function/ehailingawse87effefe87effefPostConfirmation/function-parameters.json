@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "ehailingawse87effefe87effef",
+  "functionName": "ehailingawse87effefe87effefPostConfirmation",
+  "resourceName": "ehailingawse87effefe87effefPostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "C:\\Users\\Kayzmann\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "ehailingawse87effefe87effefPostConfirmation",
+  "skipEdit": true,
+  "enableCors": false
+}
