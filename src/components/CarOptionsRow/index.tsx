@@ -1,16 +1,18 @@
 import React from 'react';
 // import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text , Pressable} from 'react-native';
 
 
 interface Props {
     type: string;
     price: number;
     duration: number;
+    typePress: () => void;
+    isSelected: boolean;
 }
 
 
-const CarOptionsRow: React.FC<Props> = ({ price, type, duration }) => {
+const CarOptionsRow: React.FC<Props> = ({ price, type, duration, typePress, isSelected }) => {
     const getImage = () => {
         if (type === 'UberX') {
             return require('../../../assets/images/UberX.jpeg')
@@ -22,7 +24,9 @@ const CarOptionsRow: React.FC<Props> = ({ price, type, duration }) => {
     }
     
     return (
-        <View style={styles.container}>
+        <Pressable
+            onPress={typePress}
+            style={[styles.container, {backgroundColor: isSelected? '#efefef': '#fff'}]}>
         <Image
             style={styles.image}
             source={getImage()}
@@ -43,7 +47,7 @@ const CarOptionsRow: React.FC<Props> = ({ price, type, duration }) => {
             {/* <Ionicons name="pricetag" size={19} color="#42d742" /> */}
             <Text style={styles.price}>ext. ${price}</Text>
         </View>
-  </View>
+  </Pressable>
     )
 }
 

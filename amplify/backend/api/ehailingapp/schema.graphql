@@ -25,4 +25,11 @@ type Order @model
 
   carId: ID!
   car: Car @connection(fields: ["carId"])
+
+  type: String!
+  originLatitude: Float!,
+  originLongitude: Float!,
+
+  destinationLatitude: Float!
+  destinationLongitude: Float!
 }

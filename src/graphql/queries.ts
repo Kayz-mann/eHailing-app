@@ -14,6 +14,11 @@ export const getUser = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -58,6 +63,11 @@ export const getCar = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -119,6 +129,11 @@ export const getOrder = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      type
+      originLatitude
+      originLongitude
+      destinationLatitude
+      destinationLongitude
       updatedAt
     }
   }
@@ -151,6 +166,11 @@ export const listOrders = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        type
+        originLatitude
+        originLongitude
+        destinationLatitude
+        destinationLongitude
         updatedAt
       }
       nextToken

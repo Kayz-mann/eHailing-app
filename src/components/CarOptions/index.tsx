@@ -4,8 +4,13 @@ import { Pressable, View, Text, StyleSheet, ScrollView } from 'react-native';
 import typesData from '../../../assets/data/types';
 import CarOptionsRow from '../CarOptionsRow';
 
-const CarOptions: React.FC = () => {
-    // const [data, setData] = useState()
+interface Props {
+    typeState: any;
+    onSubmit: () => void;
+}
+
+const CarOptions: React.FC<Props> = ({typeState, onSubmit}) => {
+    const [selectedType, setSelectedType] = typeState;
     const confirm = async () => {
         
     }
@@ -16,6 +21,8 @@ const CarOptions: React.FC = () => {
           <View style={{ alignItems: 'center', width: '100%', marginTop: 10 }}>
                 {typesData.map((type) => {
                     <CarOptionsRow
+                        isSelected={type.type === selectedType}
+                        typePress={() => setSelectedType(type.type)}
                         key={type.id}
                         type={type.type}
                         price={type.price}
@@ -24,7 +31,7 @@ const CarOptions: React.FC = () => {
                 })}
          </View>
         <Pressable
-            onPress={confirm}
+            onPress={onSubmit}
             style={styles.button}
         >
             <Text style={styles.text}>

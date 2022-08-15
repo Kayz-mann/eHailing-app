@@ -14,6 +14,11 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -35,6 +40,11 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -56,6 +66,11 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -79,6 +94,11 @@ export const onCreateCar = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -102,6 +122,11 @@ export const onUpdateCar = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -125,6 +150,11 @@ export const onDeleteCar = /* GraphQL */ `
           createdAt
           userId
           carId
+          type
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
           updatedAt
         }
         nextToken
@@ -163,6 +193,11 @@ export const onCreateOrder = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      type
+      originLatitude
+      originLongitude
+      destinationLatitude
+      destinationLongitude
       updatedAt
     }
   }
@@ -196,6 +231,11 @@ export const onUpdateOrder = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      type
+      originLatitude
+      originLongitude
+      destinationLatitude
+      destinationLongitude
       updatedAt
     }
   }
@@ -229,6 +269,11 @@ export const onDeleteOrder = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      type
+      originLatitude
+      originLongitude
+      destinationLatitude
+      destinationLongitude
       updatedAt
     }
   }
