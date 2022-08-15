@@ -1,25 +1,33 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-ehailingaws-dev-103238-authRole",
-      "UnauthRoleArn": "arn:aws:iam::479742344786:role/amplify-ehailingaws-dev-103238-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::479742344786:role/amplify-ehailingaws-dev-103238-authRole",
+      "AuthRoleName": "amplify-ehailingapp-dev-12454-authRole",
+      "UnauthRoleArn": "arn:aws:iam::479742344786:role/amplify-ehailingapp-dev-12454-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::479742344786:role/amplify-ehailingapp-dev-12454-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-ehailingaws-dev-103238-deployment",
-      "UnauthRoleName": "amplify-ehailingaws-dev-103238-unauthRole",
-      "StackName": "amplify-ehailingaws-dev-103238",
-      "StackId": "arn:aws:cloudformation:us-east-1:479742344786:stack/amplify-ehailingaws-dev-103238/71d98e10-ee20-11ec-8148-0ec560cea32b",
-      "AmplifyAppId": "d2zcvwbyaftp6b"
+      "DeploymentBucketName": "amplify-ehailingapp-dev-12454-deployment",
+      "UnauthRoleName": "amplify-ehailingapp-dev-12454-unauthRole",
+      "StackName": "amplify-ehailingapp-dev-12454",
+      "StackId": "arn:aws:cloudformation:us-east-1:479742344786:stack/amplify-ehailingapp-dev-12454/69b619c0-f4e6-11ec-9fb2-0e8ede2c6895",
+      "AmplifyAppId": "d2l5am2yiop8t8",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-ehailingapp-dev-12454-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "function": {
-        "ehailingawse87effefe87effefPostConfirmation": {
-          "deploymentBucketName": "amplify-ehailingaws-dev-103238-deployment",
-          "s3Key": "amplify-builds/ehailingawse87effefe87effefPostConfirmation-536c374a734e662f4666-build.zip"
+        "ehailingapp2cf216052cf21605PostConfirmation": {
+          "deploymentBucketName": "amplify-ehailingapp-dev-12454-deployment",
+          "s3Key": "amplify-builds/ehailingapp2cf216052cf21605PostConfirmation-54644e6d417571724e69-build.zip"
+        },
+        "ehailingapp2cf216052cf21605CustomMessage": {
+          "REDIRECTURL": "",
+          "EMAILSUBJECT": "",
+          "EMAILMESSAGE": "",
+          "deploymentBucketName": "amplify-ehailingapp-dev-12454-deployment",
+          "s3Key": "amplify-builds/ehailingapp2cf216052cf21605CustomMessage-6e6e2f7030416246416c-build.zip"
         }
       },
       "auth": {
-        "ehailingawse87effefe87effef": {}
+        "ehailingapp2cf216052cf21605": {}
       }
     }
   }

@@ -1,23 +1,28 @@
-import React from 'react';
-import { Pressable, View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Pressable, View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import typesData from '../../../assets/data/types';
 import CarOptionsRow from '../CarOptionsRow';
 
 const CarOptions: React.FC = () => {
-    const confirm = () => {
+    // const [data, setData] = useState()
+    const confirm = async () => {
         
     }
 
-    return <View>
-        {typesData.map((item) => {
-            <CarOptionsRow
-                key={item.id}
-                type={item.type}
-                price={item.price}
-                duration={item.duration}
-            />
-        })}
+
+    return (
+        <ScrollView>
+          <View style={{ alignItems: 'center', width: '100%', marginTop: 10 }}>
+                {typesData.map((type) => {
+                    <CarOptionsRow
+                        key={type.id}
+                        type={type.type}
+                        price={type.price}
+                        duration={type.duration}
+                    />
+                })}
+         </View>
         <Pressable
             onPress={confirm}
             style={styles.button}
@@ -26,21 +31,26 @@ const CarOptions: React.FC = () => {
                 Confirm Uber
             </Text>
         </Pressable>
-  </View>;
+  </ScrollView>
+    )
 }
 
 const styles = StyleSheet.create({
     button: {
-        width: '100%',
+        width: 343,
+        height: 43,
         backgroundColor: '#000',
         padding: 10,
-        margin: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10,
     },
     text: {
         color: '#fff',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignItems: 'center',
     }
 })
 
 export default CarOptions;
+
+

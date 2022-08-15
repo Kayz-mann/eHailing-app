@@ -1,5 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+// import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Image, Text } from 'react-native';
 
 
@@ -18,10 +18,11 @@ const CarOptionsRow: React.FC<Props> = ({ price, type, duration }) => {
         if (type === 'Comfort') {
             return require('../../../assets/images/Comfort.jpeg')
         }
-        return require('../../../assets/images/UberXL.jpeg')
+        return require('../../../assets/images/top-UberXL.png')
     }
     
-    return <View style={styles.container}>
+    return (
+        <View style={styles.container}>
         <Image
             style={styles.image}
             source={getImage()}
@@ -30,7 +31,7 @@ const CarOptionsRow: React.FC<Props> = ({ price, type, duration }) => {
             <Text style={styles.title}>
                 {type}
             </Text>
-            <Ionicons name="person" size={12} />
+            {/* <Ionicons name="person" size={12} /> */}
             <Text style={styles.title}>
                 3
             </Text>
@@ -39,10 +40,11 @@ const CarOptionsRow: React.FC<Props> = ({ price, type, duration }) => {
             </Text>
         </View>
         <View style={styles.rightContainer}>
-            <Ionicons name="pricetag" size={19} color="#42d742" />
+            {/* <Ionicons name="pricetag" size={19} color="#42d742" /> */}
             <Text style={styles.price}>ext. ${price}</Text>
         </View>
-  </View>;
+  </View>
+    )
 }
 
 const styles = StyleSheet.create({

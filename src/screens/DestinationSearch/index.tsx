@@ -2,31 +2,31 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, TextInput, StyleSheet, View } from 'react-native';
 import { DescriptionRow, GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { RootStackParamList } from '../../navigation';
+
 import { HomeNavParamList } from '../../navigation/HomeNav';
 import PlaceRow from './PlaceRow';
 
 
 
-const homePlace = {
-    description: 'Home',
-    geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
-};
 
-const workPlace = {
-    description: 'Work',
-    geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
-};
 
 type Props = NativeStackScreenProps<HomeNavParamList, 'DestinationSearch'>;
 
 const DestinationSearch = ({ navigation }: Props): JSX.Element => {
     const [originPlace, setOriginPlace] = useState<any>(null);
-    const [destinationPlace, setDestinationPlace] = useState(null);
+    const [destinationPlace, setDestinationPlace] = useState<any>(null);
 
-    useEffect(() => {
-        nextStack();
-    }, [originPlace, destinationPlace])
+    const homePlace = {
+        description: 'Home',
+        geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
+    };
+    
+    const workPlace = {
+        description: 'Work',
+        geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
+    };
+
+
 
 
     const nextStack = () => {
@@ -38,10 +38,14 @@ const DestinationSearch = ({ navigation }: Props): JSX.Element => {
         }
     }
 
+    useEffect(() => {
+        nextStack();
+    }, [originPlace, destinationPlace])
+
 
     
   return (
-      <SafeAreaView>
+      <View style={{ marginTop: 50 }}>
             <GooglePlacesAutocomplete
                 placeholder='Where from?'
                 onPress={(data: GooglePlaceData, details: GooglePlaceDetail | null = null) => {
@@ -64,7 +68,8 @@ const DestinationSearch = ({ navigation }: Props): JSX.Element => {
                       position: 'absolute',
                       top: 10,
                       left: 10,
-                      right: 10
+                      right: 10,
+                      height: 30
                   },
                   listView: styles.listView,
                   separator: styles.separator
@@ -72,8 +77,8 @@ const DestinationSearch = ({ navigation }: Props): JSX.Element => {
             />
             <GooglePlacesAutocomplete
                 placeholder='Where to?'
-                onPress={(data: GooglePlaceData, details: GooglePlaceDetail | null = null) => {
-                        setOriginPlace({ data, details })
+                onPress={(data: GooglePlaceData, details: GooglePlaceDetail|null = null) => {
+                        setDestinationPlace({ data, details })
                         // 'details' is provided when fetchDetails = true
                         //setOriginPlace({data, details})
                         console.log(data, details);
@@ -92,9 +97,10 @@ const DestinationSearch = ({ navigation }: Props): JSX.Element => {
                         textInput: styles.textInput,
                         container: {
                             position: 'absolute',
-                            top: 55,
+                            top: 65,
                             left: 10,
-                            right: 10
+                            right: 10,
+
 
                         },
                         separator: styles.separator
@@ -103,28 +109,32 @@ const DestinationSearch = ({ navigation }: Props): JSX.Element => {
           <View style={styles.circle} />
           <View style={styles.line} />
           <View style={styles.square} />
-      </SafeAreaView>
+      </View>
   );
 }
 
 const styles = StyleSheet.create({
     container: {
         padding: 10,
-        height: '100%'
+        // height: '100%'
     },
     textInput: {
         height: 50,
         backgroundColor: '#eee',
         marginVertical: 5,
         marginLeft: 20,
+        paddingHorizontal: 8,
     },
     separator: {
-        backgroundColor: '#efefef',
+        backgroundColor: '#cecece',
+        marginVertical: 13,
         height: 1
     },
     listView: {
         position: 'absolute',
-        top: 100
+        top: 100,
+        paddingTop: 40,
+        height: 200,
     },
     circle: {
         width: 5,
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
     },
     line: {
         width: 1,
-        height: 50,
+        height: 75,
         backgroundColor: '#919191',
         position: 'absolute',
         top: 25,
@@ -148,7 +158,7 @@ const styles = StyleSheet.create({
         height: 5,
         backgroundColor: '#000',
         position: 'absolute',
-        top: 80,
+        top: 100,
         left: 15
     }
 })

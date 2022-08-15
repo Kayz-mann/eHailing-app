@@ -1,5 +1,6 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, Dimensions } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
@@ -9,34 +10,26 @@ interface Props {
 }
 
 
+const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo';
 
-const RouteMap: React.FC<Props> = ({ origin, destination }) => {
+const RouteMap: React.FC<Props> = ({origin, destination}) => {
 
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo'
-
-    // const origin = {
-    //     latitude: 28.450627,
-    //     longitude: -16.263045,
-    // }
   
   const originLocation = {
-    longitude: origin.details.geometry.location.lng,
-    latitude: origin.details.geometry.location.lat
+    latitude: parseFloat(origin.details.geometry.location.lat),
+    longitude: parseFloat(origin.details.geometry.location.lng)
   }
 
   const destinationLocation = {
-    longitude: destination.details.geometry.location.lng,
-    latitude:  destination.details.geometry.location.lat,
+    latitude: parseFloat(destination.details.geometry.location.lat),
+    longitude: parseFloat(destination.details.geometry.location.lng)
   }
 
-    // const destination = {
-    //     latitude: 28.450627,
-    //     longitude: -14.263045,
-    // }
 
-    return <View>
+    return (
+      <View>
       <MapView
-        style={{width: '100%', height: '100%' }}
+        style={styles.map}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         initialRegion={{
@@ -47,22 +40,33 @@ const RouteMap: React.FC<Props> = ({ origin, destination }) => {
         }}
         >
             <MapViewDirections
-                origin={originLocation}
-                destination={destinationLocation}
+            origin={originLocation}
+            destination={destinationLocation}
                 apikey={GOOGLE_MAPS_APIKEY}
-                strokeWidth={3}
+                strokeWidth={5}
                 strokeColor="black"
             />
             <Marker 
-              coordinate={origin}
+            coordinate={originLocation}
               title={"Origin"}
             />
             <Marker 
-              coordinate={destination}
+            coordinate={destinationLocation}
               title={"Destination"}
             />
       </MapView>
-  </View>;
+  </View>
+    )
 }
+
+const styles = StyleSheet.create({
+  map: {
+    // ...StyleSheet.absoluteFillObject,
+    // width: Dimensions.get('window').width,
+    // minHeight: 500,
+    // flex:1,
+    width: '100%', height: '100%'
+  }
+})
 
 export default RouteMap;

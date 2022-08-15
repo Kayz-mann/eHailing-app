@@ -27,10 +27,10 @@ function HomeNav(): JSX.Element {
         screenOptions={{
             headerShown: false,
         }}
-        initialRouteName={"DestinationSearch"}
+        initialRouteName={"HomeScreen"}
     >
-        <Home.Screen name="HomeScreen" component={HomeScreen} />
         <Home.Screen name="DestinationSearch" component={DestinationSearch} />
+        <Home.Screen name="HomeScreen" component={HomeScreen} />
         <Home.Screen name="SearchResults" component={SearchResults} />
   </Home.Navigator>
     )

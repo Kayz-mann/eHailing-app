@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, View, Text } from 'react-native';
 import CarOptions from '../../components/CarOptions';
 import RouteMap from '../../components/RouteMap';
 import { useRoute } from '@react-navigation/native';
@@ -11,16 +11,18 @@ type Props = NativeStackScreenProps<HomeNavParamList, 'SearchResults'>;
 
 const SearchResults = ({ navigation }: Props): JSX.Element => {
   const route = useRoute<any>();
-  const { origin, destination } = route.params
+  const { originPlace, destinationPlace } = route.params
   
-  return <View style={{ display: 'flex', justifyContent: 'space-between' }} >
-    <View style={{ height: Dimensions.get('window').height - 400}}>
-       <RouteMap origin={origin} destination={destination} />
-      </View>
-    <View style={{ height: 400 }}>
-      <CarOptions />
+  return (
+    <View style={{ display: 'flex' }} >
+    <View style={{ height: Dimensions.get('window').height - 400,}}>
+       <RouteMap origin={originPlace} destination={destinationPlace} />
     </View>
-  </View>;
+     <View style={{ height: 500, alignItems: 'center' }}>
+      <CarOptions />
+     </View> 
+  </View>
+  )
 }
 
 export default SearchResults;

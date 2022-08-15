@@ -14,14 +14,20 @@ const HomeSearch: React.FC<Props> = ({ onPress }) => {
                     <AntDesign name={'clockcircle'} size={16} color="#535353" />
                     <Text>Now</Text>
                     <MaterialIcons name="keyboard-arrow-down" size={16} color="black" />
-                </View>
-                <View style={styles.row}>
-                    <View style={[styles.iconContainer, {backgroundColor: '#218cff'}]}>
+                </View>    
+            </Pressable>
+            <View style={styles.row}>
+                    <View style={[styles.iconContainer, {backgroundColor: '#cecece', marginRight: 10}]}>
+                       <AntDesign name={'clockcircle'} size={16} color="#535353" />
+                    </View>
+                    <Text>Spin Nightclub</Text>
+            </View>
+            <View style={styles.row}>
+                    <View style={[styles.iconContainer, {backgroundColor: '#218cff', marginRight: 10}]}>
                         <Entypo name={'home'} size={20} color="#fff" />
                     </View>
                     <Text>Spin Nightclub</Text>
-                </View>
-            </Pressable>
+            </View>
       </View>
   );
 }
@@ -33,16 +39,17 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 8
     },
     inputText: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '600',
-        color: '#6e6e6e'
+        color: '#6e6e6e',
     },
     timeContainer: {
         flexDirection: 'row',
-        width: 70,
+        width: 100,
         justifyContent: 'space-between',
         backgroundColor: '#fff',
         padding: 10,

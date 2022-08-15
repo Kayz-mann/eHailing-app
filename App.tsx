@@ -1,21 +1,20 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
+import { PermissionsAndroid, Platform, StyleSheet } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import 'react-native-gesture-handler';
+
+import { Amplify, Auth } from 'aws-amplify';
+import config from './src/aws-exports';
+Amplify.configure(config);
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Navigation from './src/navigation';
 import { withAuthenticator } from 'aws-amplify-react-native';
-import Amplify from 'aws-amplify';
-import config from './aws-exports';
-Amplify.configure(config)
-
-import RootNavigator from './src/navigation';
 
 
-
-
- function App() {
-  // navigator.geolocation = require('@react-native-community/geolocation');
+function App({ user }: any) {
+  navigator.geolocation = require('@react-native-community/geolocation');
   const androidPermissions = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -34,36 +33,56 @@ import RootNavigator from './src/navigation';
       } else {
         console.log("Camera permissions denied");
       }
-    } catch (err) {
+  } catch (err) {
        console.warn(err)
     }
   }
 
   useEffect(() => {
+    let isMounted = true;
     if (Platform.OS === 'android') {
-      androidPermissions();
+      if (isMounted) (androidPermissions());   
     } else {
       //ios permission
       Geolocation.requestAuthorization();
+      return () => { isMounted = false };
     }
   });
 
-  return (
-    <View style={styles.container}>
-      <RootNavigator />
+  
+    // useEffect(() => {
+    //   let isMounted = true;
+    //   if (Platform.OS === 'android') {
+    //     if (isMounted) {
+    //       androidPermissions();
+    //     }
+    //   }
+    //   Geolocation.requestAuthorization();
+    //   return () => { isMounted = false };
+    // }, [])
+
+
+    // 1:21:08
+  
+
+   return (
+     <SafeAreaProvider>
+      <Navigation />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaProvider>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
+
+// export default App
 
 export default withAuthenticator(App);
 
@@ -72,4 +91,46 @@ export default withAuthenticator(App);
 // amplify add auth
 // setup lambda function
 // create own module
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // configure App.js

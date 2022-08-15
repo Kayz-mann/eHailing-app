@@ -1,19 +1,33 @@
 {
   "function": {
-    "ehailingawse87effefe87effefPostConfirmation": {
+    "ehailingapp2cf216052cf21605PostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ehailingapp2cf216052cf21605CustomMessage": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "auth": {
-    "ehailingawse87effefe87effef": {
+    "ehailingapp2cf216052cf21605": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "ehailingawse87effefe87effefPostConfirmation",
+          "resourceName": "ehailingapp2cf216052cf21605PostConfirmation",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "ehailingapp2cf216052cf21605CustomMessage",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -21,11 +35,29 @@
           ]
         }
       ],
-      "customAuth": false
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      }
     }
   },
   "api": {
-    "ehailingaws": {
+    "ehailingapp": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -33,7 +65,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authehailingawse87effefe87effef"
+              "userPoolId": "authehailingapp2cf216052cf21605"
             }
           },
           "additionalAuthenticationProviders": []

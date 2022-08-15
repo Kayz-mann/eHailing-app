@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "ehailingapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authehailingapp2cf216052cf21605",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

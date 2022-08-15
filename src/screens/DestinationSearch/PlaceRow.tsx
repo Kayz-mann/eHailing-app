@@ -11,7 +11,8 @@ interface Props {
 
 
 const PlaceRow: React.FC<Props> = ({ data }) => {
-    return <View style={styles.row}>
+    return (
+        <View style={styles.row}>
         <View style={styles.container}>
             {data.description === 'Home'
                 ? <Entypo name="home" size={20} color="#fff" />
@@ -19,7 +20,8 @@ const PlaceRow: React.FC<Props> = ({ data }) => {
             }
         </View>
         <Text style={styles.locationText}>{data.description || data.vicinity}</Text>
-  </View>;
+  </View>
+    )
 }
 
 const styles = StyleSheet.create({
