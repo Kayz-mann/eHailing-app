@@ -30,7 +30,7 @@ const SearchResults = ({ navigation }: Props): JSX.Element => {
         destinationLatitude: destinationPlace.details.geometry.location.lat,
         destinationLongitude: destinationPlace.details.geometry.location.lng,
         userId: userInfo.attributes.sub ,
-        carId: "",
+        carId: "1",
         createdAt: date.toISOString(),
       }
     const response = await API.graphql(
@@ -42,8 +42,11 @@ const SearchResults = ({ navigation }: Props): JSX.Element => {
     )
     console.log(response)
       Alert.alert(
-        "Message created"
-    )
+        "Message created",
+        // button: [{
+        //   text: "Go home",
+        //   onPress: () => navigation.navigate('HomeScreen')   }]
+      )
     } catch (e: any) {
       console.error(e)
     }
