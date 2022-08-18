@@ -4,6 +4,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 interface Props {
     origin: any;
@@ -32,6 +33,13 @@ const destination = { latitude: 37.7718456, longitude: -122.5296002}
             longitudeDelta: 0.0121,
             }}
            >
+           <MapViewDirections
+                origin={origin}
+                destination={destination}
+                apikey={GOOGLE_MAPS_APIKEY}
+                strokeWidth={5}
+                strokeColor="black"
+            />
            </MapView>
        </View>
     );
