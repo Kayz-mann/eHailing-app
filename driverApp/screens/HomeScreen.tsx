@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Pressable} from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Icon from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import NewOrderPopup from '../components/NewOrderPopup';
 
 
@@ -14,7 +15,7 @@ interface Props {
     destination: any;
 }
 
-const origin = { latitude: 37.3318456, longitude: -122.0296002 }
+const origin = { latitude: 28.3318456, longitude: -16.0296002 }
 const destination = { latitude: 37.7718456, longitude: -122.5296002}
   
   
@@ -23,10 +24,116 @@ const destination = { latitude: 37.7718456, longitude: -122.5296002}
 // const HomeScreen = (): JSX.Element => {
 const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   const [isOnline, setIsOnline] = useState<boolean>(false);
+  const [driverPosition, setDriverPosition] = useState<any>(null);
+  const [order, setOrder] = useState<any>(null);
+  const [newOrder, setNewOrder] = useState({
+    id: '1',
+    type: 'UnerX',
+    originLatitiude: '37.3318056',
+    originLongitude: '-16.263845',
+    destinationLatitude: '28.450927',
+    destinationLongitude: '32.45554',
+    user: {
+      rating: 4.8,
+      name: 'Kay'
+    }
+  })
 
   const goPress = () => {
     setIsOnline(!isOnline);
   } 
+
+  const onDecline = () => {
+    setNewOrder(newOrder)
+  }
+
+  const onAccept = () => {
+    setOrder(newOrder)
+    setNewOrder(newOrder)
+  }
+
+  const onLocationChange = ({event}: any) => {
+    setDriverPosition(event.nativeEvent.coordinate)
+  }
+
+  const onDirectionFound = ({ event }: any) => {
+    if (order) {
+      setOrder({
+        ...order,
+        distance: event.distance,
+        duration: event.duration,
+        pickedUp: order.pickedUp || event.distance < 0.2,
+        isFinished: order.pickedUp && event.distance < 0.2,
+      })
+    }
+    
+  }
+
+  const getDestination = () => {
+    if (order && order.pickedUp) {
+      return {
+        latitude: order.destinationLatitude,
+        longitude: order.destinationLongitude
+      }
+    }
+    return {
+      latitude: order.originLatitude,
+      longitude: order.originLongitude
+    }
+  }
+
+
+
+  const renderBottomTitle = () => {
+    if (order && order.isFinished) {
+      return (
+        <View style={{ alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'red', justifyContent: 'center', width: 200, padding: 10}}>
+          <Text style={{ color: '#fff', fontWeight: 'bold'}}>COMPLETE{order.type.toUpperCase()}min</Text>
+        </View>
+        
+        <Text style={styles.bottomText}>Dropping off{order.user.name}</Text>
+      </View>
+      )
+    }
+    if (order && order.pickedUp) {
+      return (
+        <View style={{ alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+          <Text>{order.duration ? order.duration : ''}min</Text>
+          <View style={{ backgroundColor: '#d41212', marginHorizontal: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}> 
+            <FontAwesome name={'user'} color="#fff" size={20} />
+          </View>
+          <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
+        </View>
+        
+        <Text style={styles.bottomText}>Dropping off{order.user.name}</Text>
+      </View>
+      )
+    }
+    if (order) {
+      console.log(order);
+      return (
+        <View style={{ alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+            <Text>{order.duration ? order.duration : ''}min</Text>
+            <View style={{ backgroundColor: '#1e9203', marginHorizontal: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}> 
+              <FontAwesome name={'user'} color="#fff" size={20} />
+            </View>
+            <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
+          </View>
+          
+          <Text style={styles.bottomText}>Picking up {order.user.name}</Text>
+        </View>
+      )
+    }
+    if (isOnline) {
+      return (
+          <Text style={styles.bottomText}>You're online</Text>
+      )
+    }
+    return <Text style={styles.bottomText}>You're offline</Text>
+  }
 
     return (
         <View style={{ flex: 1, }}>
@@ -35,6 +142,8 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
             style={{ width: '100%', height: Dimensions.get('window').height - 120 }}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
+            onMapReady={onDirectionFound}
+            onUserLocationChange={onLocationChange}
             initialRegion={{
             latitude: 28.450627,
             longitude: -16.263045,
@@ -42,13 +151,15 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
             longitudeDelta: 0.0121,
             }}
            >
-           <MapViewDirections
-                origin={origin}
-                destination={destination}
-                apikey={GOOGLE_MAPS_APIKEY}
-                strokeWidth={5}
-                strokeColor="black"
-            />
+            {order && (
+              <MapViewDirections
+                  origin={driverPosition}
+                  destination={getDestination()}
+                  apikey={GOOGLE_MAPS_APIKEY}
+                  strokeWidth={5}
+                  strokeColor="black"
+              />
+            )}
            </MapView>
            <Pressable 
              onPress={() => console.warn('Hey')}
@@ -89,16 +200,18 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
               <TouchableOpacity activeOpacity={0.6}>
                 <Icon name={'options'} size={20} color="#4a4a4a" />
               </TouchableOpacity>
-              {
-                isOnline ? 
-                <Text style={styles.bottomText}>You're online</Text>
-              : <Text style={styles.bottomText}>You're offline</Text>
-              }
+               {renderBottomTitle()}
               <TouchableOpacity activeOpacity={0.6}>
                 <Icon name={'menu'} size={20} color="#4a4a4a" />
               </TouchableOpacity>
            </View>
-           <NewOrderPopup />
+           <NewOrderPopup 
+              newOrder={newOrder}
+              distance={'2'}
+              duration={'0.5'}
+              onDecline={onDecline}
+              onAccept={() => onAccept()}
+           />
        </View>
     );
 }
@@ -162,3 +275,5 @@ const styles = StyleSheet.create({
 
 })
 export default HomeScreen;
+
+// movable-type.co.uk

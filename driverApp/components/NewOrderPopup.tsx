@@ -5,14 +5,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // import { Container } from './styles';
 
-const NewOrderPopup: React.FC = () => {
-    const onDecline = () => {
-        console.warn('on decline order')
-    }
+interface Props {
+    newOrder: any;
+    onDecline: () => void;
+    onAccept: () => void;
+    duration: string;
+    distance: string;
 
-    const onAccept = () => {
-        console.warn('on accept order')
-    }
+}
+
+const NewOrderPopup: React.FC<Props> = ({ onAccept, onDecline, newOrder, distance, duration}) => {
+
     return (
         <View style={styles.root}>
             <Pressable style={styles.declineButton} onPress={onDecline}>
@@ -20,17 +23,17 @@ const NewOrderPopup: React.FC = () => {
             </Pressable>
             <Pressable onPress={onAccept} style={styles.popupContainer}>
                 <View style={styles.row}>
-                    <Text style={styles.carType}>UberX</Text>
+                    <Text style={styles.carType}>{newOrder.type}</Text>
                     <View style={styles.userBg}>
                         <FontAwesome name="user" color="lightgrey" size={30} />
                     </View>
                     <Text style={styles.carType}>
                         <AntDesign name="star" size={18} color="lightgrey" />
-                        5
+                        {newOrder.user.rating}
                     </Text>
                 </View>
-                <Text style={styles.minutes}>2 min</Text>
-                <Text style={styles.distance}>0.2 mi</Text>
+                <Text style={styles.minutes}>{duration}min</Text>
+                <Text style={styles.distance}>{distance}mi</Text>
             </Pressable>
         </View>
     );
