@@ -15,8 +15,8 @@ interface Props {
     destination: any;
 }
 
-const origin = { latitude: 28.3318456, longitude: -16.0296002 }
-const destination = { latitude: 37.7718456, longitude: -122.5296002}
+// const origin = { latitude: 28.3318456, longitude: -16.0296002 }
+// const destination = { latitude: 37.7718456, longitude: -122.5296002}
   
   
   const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo';
