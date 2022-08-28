@@ -28,7 +28,11 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   const [order, setOrder] = useState<any>(null);
   const [newOrder, setNewOrder] = useState({
     id: '1',
+<<<<<<< HEAD
     type: 'UberX',
+=======
+    type: 'UnerX',
+>>>>>>> 59a7c35d15be22c428fd3221ed07b5b2ca9ba2f8
     originLatitiude: '37.3318056',
     originLongitude: '-16.263845',
     destinationLatitude: '28.450927',
