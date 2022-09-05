@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
 
-import React, { useEffect, useState } from 'react';
-import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Pressable} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Pressable } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -11,24 +11,24 @@ import NewOrderPopup from '../components/NewOrderPopup';
 
 
 interface Props {
-    origin: any;
-    destination: any;
+  origin: any;
+  destination: any;
 }
 
 // const origin = { latitude: 28.3318456, longitude: -16.0296002 }
 // const destination = { latitude: 37.7718456, longitude: -122.5296002}
-  
-  
-  const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo';
+
+
+const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo';
 
 // const HomeScreen = (): JSX.Element => {
 const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   const [isOnline, setIsOnline] = useState<boolean>(false);
   const [driverPosition, setDriverPosition] = useState<any>(null);
   const [order, setOrder] = useState<any>(null);
-  const [newOrder, setNewOrder] = useState({
+  const [newOrder, setNewOrder] = useState<object | null>({
     id: '1',
-    type: 'UberX',
+    type: 'Mercedes-AMG',
     originLatitiude: '37.3318056',
     originLongitude: '-16.263845',
     destinationLatitude: '28.450927',
@@ -37,22 +37,23 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
       rating: 4.8,
       name: 'Kay'
     }
-  })
+  });
+
+  const onAccept = () => {
+    setOrder(newOrder);
+    setNewOrder(null);   //accept function and perform task
+  }
+
+  const onDecline = () => {
+    setNewOrder(null);
+  }
 
   const goPress = () => {
     setIsOnline(!isOnline);
-  } 
-
-  const onDecline = () => {
-    setNewOrder(newOrder)
   }
 
-  const onAccept = () => {
-    setOrder(newOrder)
-    setNewOrder(newOrder)
-  }
 
-  const onLocationChange = ({event}: any) => {
+  const onLocationChange = ({ event }: any) => {
     setDriverPosition(event.nativeEvent.coordinate)
   }
 
@@ -65,8 +66,8 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
         pickedUp: order.pickedUp || event.distance < 0.2,
         isFinished: order.pickedUp && event.distance < 0.2,
       })
+
     }
-    
   }
 
   const getDestination = () => {
@@ -87,133 +88,137 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   const renderBottomTitle = () => {
     if (order && order.isFinished) {
       return (
-        <View style={{ alignItems: 'center'}}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'red', justifyContent: 'center', width: 200, padding: 10}}>
-          <Text style={{ color: '#fff', fontWeight: 'bold'}}>COMPLETE{order.type.toUpperCase()}min</Text>
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'red', justifyContent: 'center', width: 200, padding: 10 }}>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>COMPLETE{order.type.toUpperCase()}min</Text>
+          </View>
+
+          <Text style={styles.bottomText}>Dropping off{order.user.name}</Text>
         </View>
-        
-        <Text style={styles.bottomText}>Dropping off{order.user.name}</Text>
-      </View>
       )
     }
     if (order && order.pickedUp) {
       return (
-        <View style={{ alignItems: 'center'}}>
-        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-          <Text>{order.duration ? order.duration : ''}min</Text>
-          <View style={{ backgroundColor: '#d41212', marginHorizontal: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}> 
-            <FontAwesome name={'user'} color="#fff" size={20} />
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text>{order.duration ? order.duration.toFixed(1) : ''}min</Text>
+            <View style={{ backgroundColor: '#d41212', marginHorizontal: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }}>
+              <FontAwesome name={'user'} color="#fff" size={20} />
+            </View>
+            <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
           </View>
-          <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
+
+          <Text style={styles.bottomText}>Picking Up{order.user.name}</Text>
         </View>
-        
-        <Text style={styles.bottomText}>Dropping off{order.user.name}</Text>
-      </View>
       )
     }
     if (order) {
       console.log(order);
       return (
-        <View style={{ alignItems: 'center'}}>
-          <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text>{order.duration ? order.duration : ''}min</Text>
-            <View style={{ backgroundColor: '#1e9203', marginHorizontal: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}> 
+            <View style={{ backgroundColor: '#1e9203', marginHorizontal: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }}>
               <FontAwesome name={'user'} color="#fff" size={20} />
             </View>
             <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
           </View>
-          
+
           <Text style={styles.bottomText}>Picking up {order.user.name}</Text>
         </View>
       )
     }
     if (isOnline) {
       return (
-          <Text style={styles.bottomText}>You're online</Text>
+        <Text style={styles.bottomText}>You're online</Text>
       )
     }
     return <Text style={styles.bottomText}>You're offline</Text>
   }
 
-    return (
-        <View style={{ flex: 1, }}>
-          <MapView
-            // eslint-disable-next-line react-native/no-inline-styles
-            style={{ width: '100%', height: Dimensions.get('window').height - 120 }}
-            provider={PROVIDER_GOOGLE}
-            showsUserLocation={true}
-            onMapReady={onDirectionFound}
-            onUserLocationChange={onLocationChange}
-            initialRegion={{
-            latitude: 28.450627,
-            longitude: -16.263045,
-            latitudeDelta: 0.0222,
-            longitudeDelta: 0.0121,
-            }}
-           >
-            {order && (
-              <MapViewDirections
-                  origin={driverPosition}
-                  destination={getDestination()}
-                  apikey={GOOGLE_MAPS_APIKEY}
-                  strokeWidth={5}
-                  strokeColor="black"
-              />
-            )}
-           </MapView>
-           <Pressable 
-             onPress={() => console.warn('Hey')}
-             style={[styles.balanceButton, {top: 10, right: 20, flexDirection: 'row'}]}>
-              <Text style={{ color: '#4a4a4a', fontWeight: 'bold'}}>$</Text>
-             <Text style={{ color: '#fff', marginLeft: 5, fontWeight: 'bold'}}>0.00</Text>
-           </Pressable>
-           <Pressable 
-             onPress={() => console.warn('Hey')}
-             style={[styles.roundButton, {top: 10, left: 10}]}>
-             <Icon name={'menu'} size={24} color="#4a4a4a" />
-           </Pressable>
-           <Pressable 
-             onPress={() => console.warn('Hey')}
-             style={[styles.roundButton, {top: 10, right: 10}]}>
-             <Icon name={'menu'} size={24} color="#4a4a4a" />
-           </Pressable>
-           <Pressable 
-             onPress={() => console.warn('Hey')}
-             style={[styles.roundButton, {top: 620, left: 10}]}>
-             <Icon name={'menu'} size={24} color="#4a4a4a" />
-           </Pressable>
-           <Pressable 
-             onPress={() => console.warn('Hey')}
-             style={[styles.roundButton, {top: 620, right: 10}]}>
-             <Icon name={'menu'} size={24} color="#4a4a4a" />
-           </Pressable>
-           <Pressable 
-             onPress={goPress}
-             style={[styles.goButton, {top: 580, right: 10}]}>
-            <Text style={styles.goText}>
-              {
-                isOnline? 'END' : 'GO'
-              }
-            </Text>
-           </Pressable>
-           <View style={styles.bottomContainer}>
-              <TouchableOpacity activeOpacity={0.6}>
-                <Icon name={'options'} size={20} color="#4a4a4a" />
-              </TouchableOpacity>
-               {renderBottomTitle()}
-              <TouchableOpacity activeOpacity={0.6}>
-                <Icon name={'menu'} size={20} color="#4a4a4a" />
-              </TouchableOpacity>
-           </View>
-           <NewOrderPopup 
-              newOrder={newOrder}
-              distance={'2'}
-              duration={'0.5'}
-              onDecline={onDecline}
-              onAccept={() => onAccept()}
-           />
-       </View>
-    );
+  return (
+    <View style={{ flex: 1, }}>
+      <MapView
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{ width: '100%', height: Dimensions.get('window').height - 120 }}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        onMapLoaded={onDirectionFound}
+        onUserLocationChange={onLocationChange}
+        initialRegion={{
+          latitude: 28.450627,
+          longitude: -16.263045,
+          latitudeDelta: 0.0222,
+          longitudeDelta: 0.0121,
+        }}
+      >
+        {order && (
+          <MapViewDirections
+            origin={driverPosition}
+            destination={getDestination()}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={5}
+            strokeColor="black"
+          />
+        )}
+      </MapView>
+      <Pressable
+        onPress={() => console.warn('Hey')}
+        style={[styles.balanceButton, { top: 10, right: 20, flexDirection: 'row' }]}>
+        <Text style={{ color: '#4a4a4a', fontWeight: 'bold' }}>$</Text>
+        <Text style={{ color: '#fff', marginLeft: 5, fontWeight: 'bold' }}>0.00</Text>
+      </Pressable>
+      <Pressable
+        onPress={() => console.warn('Hey')}
+        style={[styles.roundButton, { top: 10, left: 10 }]}>
+        <Icon name={'menu'} size={24} color="#4a4a4a" />
+      </Pressable>
+      <Pressable
+        onPress={() => console.warn('Hey')}
+        style={[styles.roundButton, { top: 10, right: 10 }]}>
+        <Icon name={'menu'} size={24} color="#4a4a4a" />
+      </Pressable>
+      <Pressable
+        onPress={() => console.warn('Hey')}
+        style={[styles.roundButton, { top: 620, left: 10 }]}>
+        <Icon name={'menu'} size={24} color="#4a4a4a" />
+      </Pressable>
+      <Pressable
+        onPress={() => console.warn('Hey')}
+        style={[styles.roundButton, { top: 620, right: 10 }]}>
+        <Icon name={'menu'} size={24} color="#4a4a4a" />
+      </Pressable>
+      <Pressable
+        onPress={goPress}
+        style={[styles.goButton, { top: 580, right: 10 }]}>
+        <Text style={styles.goText}>
+          {
+            isOnline ? 'END' : 'GO'
+          }
+        </Text>
+      </Pressable>
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity activeOpacity={0.6}>
+          <Icon name={'menu'} size={20} color="#4a4a4a" />
+        </TouchableOpacity>
+        {renderBottomTitle()}
+        <TouchableOpacity activeOpacity={0.6}>
+          <Icon name={'menu'} size={20} color="#4a4a4a" />
+        </TouchableOpacity>
+      </View>
+      {
+        newOrder && (
+          <NewOrderPopup
+            newOrder={newOrder}
+            distance={'2'}
+            duration={'0.5'}
+            onDecline={onDecline}
+            onAccept={() => onAccept()}
+          />
+        )
+      }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -247,7 +252,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     bottom: 110,
-    left: Dimensions.get('window').width/2 - 37,
+    left: Dimensions.get('window').width / 2 - 37,
   },
   goText: {
     fontSize: 24,
@@ -270,7 +275,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     bottom: 110,
-    left: Dimensions.get('window').width/2 - 37,
+    left: Dimensions.get('window').width / 2 - 37,
   }
 
 })
