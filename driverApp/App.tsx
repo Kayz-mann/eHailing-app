@@ -20,7 +20,13 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import Amplify from './src/aws-exports';
+import config from './src/aws-exports';
+import { withAuthenticator } from 'aws-amplify-react-native';
+
 import HomeScreen from './screens/HomeScreen';
+
+Amplify.configure(config);
 
 
 const App = () => {
@@ -38,4 +44,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withAuthenticator(App);
