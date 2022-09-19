@@ -29,7 +29,7 @@ const NewOrderPopup: React.FC<Props> = ({ onAccept, onDecline, newOrder, distanc
                         </View>
                         <Text style={styles.carType}>
                             <AntDesign style={{ marginRight: 5 }} name="star" size={18} color="lightgrey" />
-                            {newOrder.user.rating}
+                            {newOrder.user?.rating}
                         </Text>
                     </View>
                     <Text style={styles.minutes}>{duration}min</Text>

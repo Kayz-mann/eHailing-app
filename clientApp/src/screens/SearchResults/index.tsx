@@ -32,6 +32,7 @@ const SearchResults = ({ navigation }: Props): JSX.Element => {
         userId: userInfo.attributes.sub ,
         carId: "1",
         createdAt: date.toISOString(),
+        status: "NEW",
       }
     const response = await API.graphql(
       graphqlOperation(

@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import NewOrderPopup from '../components/NewOrderPopup';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
-import { getCar } from '../src/graphql/queries';
+import { getCar, listOrders } from '../src/graphql/queries';
 import { updateCar } from '../src/graphql/mutation';
 
 
@@ -30,18 +30,32 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   const [isOnline, setIsOnline] = useState<boolean>(false);
   const [driverPosition, setDriverPosition] = useState<any>(null);
   const [order, setOrder] = useState<any>(null);
-  const [newOrder, setNewOrder] = useState<object | null>({
-    id: '1',
-    type: 'Mercedes-AMG',
-    originLatitiude: '37.3318056',
-    originLongitude: '-16.263845',
-    destinationLatitude: '28.450927',
-    destinationLongitude: '32.45554',
-    user: {
-      rating: 4.8,
-      name: 'Kay'
-    }
-  });
+  const [newOrder, setNewOrder] = useState<any>([
+  //   {
+  //   id: '1',
+  //   type: 'BMW',
+  //   originLatitiude: '37.3318056',
+  //   originLongitude: '-16.263845',
+  //   destinationLatitude: '28.450927',
+  //   destinationLongitude: '32.45554',
+  //   user: {
+  //     rating: 4.8,
+  //     name: 'Kay'
+  //   }
+  // },
+  // {
+  //   id: '2',
+  //   type: 'UberXL',
+  //   originLatitiude: '37.3318056',
+  //   originLongitude: '-16.263845',
+  //   destinationLatitude: '28.450927',
+  //   destinationLongitude: '32.45554',
+  //   user: {
+  //     rating: 4.2,
+  //     name: 'Kay'
+  //   }
+  // }
+]);
 
   // fetch the car daa from the backend
   const fetchCar = async () => {
@@ -56,13 +70,29 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
     }
   }
 
+  const fetchOrders = async () => {
+    try{
+      const ordersData: any = await API.graphql(
+        graphqlOperation(
+          listOrders,
+        )
+      );
+      console.log(ordersData);
+      setNewOrder(ordersData.data.listOrders.items);
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   const onAccept = () => {
     setOrder(newOrder);
-    setNewOrder(null);   //accept function and perform task
+    setNewOrder(newOrder.slice(1));//accept function and perform task
   }
 
   const onDecline = () => {
-    setNewOrder(null);
+    
+    // remove first element from array onDecline function
+    setNewOrder(newOrder.slice(1));
   }
 
   const goPress = async () => {
@@ -117,6 +147,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
 
   useEffect(() => {
     fetchCar();
+    fetchOrders();
   }, []);
 
 
@@ -243,9 +274,9 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
         </TouchableOpacity>
       </View>
       {
-        newOrder && (
+        newOrder.length > 0 && !order && (
           <NewOrderPopup
-            newOrder={newOrder}
+            newOrder={newOrder[0]}
             distance={'2'}
             duration={'0.5'}
             onDecline={onDecline}
