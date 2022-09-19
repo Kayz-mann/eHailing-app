@@ -115,8 +115,25 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   }
 
 
-  const onLocationChange = ({ event }: any) => {
-    setDriverPosition(event.nativeEvent.coordinate)
+  const onLocationChange = async ({ event }: any) => {
+    setDriverPosition(event.nativeEvent.coordinate);
+    const { latitude,longitude, heading } = event.nativeEvent.coordinate;
+    try{
+      const userData = await Auth.currentAuthenticatedUser();
+      const input = {
+        id: userData.attributes.sub,
+        latitude,
+        longitude,
+        heading,
+      }
+      const updatedCarData: any = await API.graphql(
+        graphqlOperation(updateCar, { input })
+      )
+      setCar(updatedCarData.data.updateCar);
+
+    }catch (e){
+      console.log(e);
+    }
   }
 
   const onDirectionFound = ({ event }: any) => {
@@ -160,7 +177,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
             <Text style={{ color: '#fff', fontWeight: 'bold' }}>COMPLETE{order.type.toUpperCase()}min</Text>
           </View>
 
-          <Text style={styles.bottomText}>Dropping off{order.user.name}</Text>
+          <Text style={styles.bottomText}> {order.user.username}</Text>
         </View>
       )
     }
@@ -175,7 +192,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
             <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
           </View>
 
-          <Text style={styles.bottomText}>Picking Up{order.user.name}</Text>
+          <Text style={styles.bottomText}>Dropping off {order.user.username}</Text>
         </View>
       )
     }
@@ -191,7 +208,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
             <Text>{order.distance ? order.distance.toFixed(1) : ''}mi</Text>
           </View>
 
-          <Text style={styles.bottomText}>Picking up {order.user.name}</Text>
+          <Text style={styles.bottomText}>Picking up {order.user.username}</Text>
         </View>
       )
     }
@@ -221,7 +238,14 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
       >
         {order && (
           <MapViewDirections
-            origin={driverPosition}
+            // origin={driverPosition}
+            origin={
+              {
+                latitude: car?.latitude,
+                longitude: car?.longitude,
+              }
+            }
+            onReady={onDirectionFound}
             destination={getDestination()}
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={5}
