@@ -15,6 +15,7 @@ export const getUser = /* GraphQL */ `
           userId
           carId
           type
+          status
           originLatitude
           originLongitude
           destinationLatitude
@@ -22,6 +23,27 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      car {
+        id
+        type
+        latitude
+        longitude
+        heading
+        isActive
+        orders {
+          nextToken
+        }
+        userId
+        user {
+          id
+          username
+          email
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
       }
       createdAt
       updatedAt
@@ -42,6 +64,17 @@ export const listUsers = /* GraphQL */ `
         orders {
           nextToken
         }
+        car {
+          id
+          type
+          latitude
+          longitude
+          heading
+          isActive
+          userId
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -57,6 +90,7 @@ export const getCar = /* GraphQL */ `
       latitude
       longitude
       heading
+      isActive
       orders {
         items {
           id
@@ -64,6 +98,7 @@ export const getCar = /* GraphQL */ `
           userId
           carId
           type
+          status
           originLatitude
           originLongitude
           destinationLatitude
@@ -71,6 +106,80 @@ export const getCar = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      userId
+      user {
+        id
+        username
+        email
+        orders {
+          nextToken
+        }
+        car {
+          id
+          type
+          latitude
+          longitude
+          heading
+          isActive
+          userId
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const getCarId = /* GraphQL */ `
+  query GetCar($id: ID!) {
+    getCar(id: $id) {
+      id
+      type
+      latitude
+      longitude
+      heading
+      isActive
+      orders {
+        items {
+          id
+          createdAt
+          userId
+          carId
+          type
+          status
+          originLatitude
+          originLongitude
+          destinationLatitude
+          destinationLongitude
+          updatedAt
+        }
+        nextToken
+      }
+      userId
+      user {
+        id
+        username
+        email
+        orders {
+          nextToken
+        }
+        car {
+          id
+          type
+          latitude
+          longitude
+          heading
+          isActive
+          userId
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
       }
       createdAt
       updatedAt
@@ -90,8 +199,17 @@ export const listCars = /* GraphQL */ `
         latitude
         longitude
         heading
+        isActive
         orders {
           nextToken
+        }
+        userId
+        user {
+          id
+          username
+          email
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
@@ -113,6 +231,17 @@ export const getOrder = /* GraphQL */ `
         orders {
           nextToken
         }
+        car {
+          id
+          type
+          latitude
+          longitude
+          heading
+          isActive
+          userId
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -123,13 +252,23 @@ export const getOrder = /* GraphQL */ `
         latitude
         longitude
         heading
+        isActive
         orders {
           nextToken
+        }
+        userId
+        user {
+          id
+          username
+          email
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
       }
       type
+      status
       originLatitude
       originLongitude
       destinationLatitude
@@ -163,10 +302,13 @@ export const listOrders = /* GraphQL */ `
           latitude
           longitude
           heading
+          isActive
+          userId
           createdAt
           updatedAt
         }
         type
+        status
         originLatitude
         originLongitude
         destinationLatitude

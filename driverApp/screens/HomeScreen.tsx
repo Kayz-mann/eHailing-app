@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Pressable } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Icon from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import NewOrderPopup from '../components/NewOrderPopup';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { getCar } from '../src/graphql/queries';
+import { updateCar } from '../src/graphql/mutation';
 
 
 interface Props {
@@ -23,6 +26,7 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyD6nVVBjHCJDJHpzcH46Ra-8SBxSCBFhzo';
 
 // const HomeScreen = (): JSX.Element => {
 const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
+  const [car, setCar] = useState<any>(null);
   const [isOnline, setIsOnline] = useState<boolean>(false);
   const [driverPosition, setDriverPosition] = useState<any>(null);
   const [order, setOrder] = useState<any>(null);
@@ -39,6 +43,19 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
     }
   });
 
+  // fetch the car daa from the backend
+  const fetchCar = async () => {
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      const carData: any = await API.graphql(
+        graphqlOperation(getCar, { id: userData.attributes.sub }))
+      setCar(carData.data.getCar);
+      console.log(carData)
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const onAccept = () => {
     setOrder(newOrder);
     setNewOrder(null);   //accept function and perform task
@@ -48,8 +65,23 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
     setNewOrder(null);
   }
 
-  const goPress = () => {
-    setIsOnline(!isOnline);
+  const goPress = async () => {
+    // setIsOnline(!isOnline);
+    // update car and setActive
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      const input = {
+        id: userData.attributes.sub,
+        isActive: !userData.isActive,
+      }
+      const updatedCarData: any = await API.graphql(
+        graphqlOperation(updateCar, { input })
+      )
+      setCar(updatedCarData.data.updateCar)
+      console.log(updatedCarData);
+    } catch (e){
+      console.log(e);
+    }
   }
 
 
@@ -73,15 +105,19 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
   const getDestination = () => {
     if (order && order.pickedUp) {
       return {
-        latitude: order.destinationLatitude,
-        longitude: order.destinationLongitude
+        latitude: Number(order.destinationLatitude),
+        longitude: Number(order.destinationLongitude)
       }
     }
     return {
-      latitude: order.originLatitude,
-      longitude: order.originLongitude
+      latitude: Number(order.originLatitude),
+      longitude: Number(order.originLongitude)
     }
   }
+
+  useEffect(() => {
+    fetchCar();
+  }, []);
 
 
 
@@ -128,7 +164,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
         </View>
       )
     }
-    if (isOnline) {
+    if (car?.isActive) {
       return (
         <Text style={styles.bottomText}>You're online</Text>
       )
@@ -140,7 +176,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
     <View style={{ flex: 1, }}>
       <MapView
         // eslint-disable-next-line react-native/no-inline-styles
-        style={{ width: '100%', height: Dimensions.get('window').height - 120 }}
+        style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height - 120 }}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         onMapLoaded={onDirectionFound}
@@ -193,7 +229,7 @@ const HomeScreen: React.FC<Props> = ({ origin, destination }) => {
         style={[styles.goButton, { top: 580, right: 10 }]}>
         <Text style={styles.goText}>
           {
-            isOnline ? 'END' : 'GO'
+            car?.isActive ? 'END' : 'GO'
           }
         </Text>
       </Pressable>
@@ -280,5 +316,3 @@ const styles = StyleSheet.create({
 
 })
 export default HomeScreen;
-
-// movable-type.co.uk

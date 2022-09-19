@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "ehailingapp2cf216052cf21605",
+  "functionName": "ehailingapp2cf216052cf21605PostConfirmation",
+  "resourceName": "ehailingapp2cf216052cf21605PostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "C:\\snapshot\\repo\\build\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "ehailingapp2cf216052cf21605PostConfirmation",
+  "skipEdit": true,
+  "enableCors": false
+}

@@ -1,5 +1,11 @@
 export type AmplifyDependentResourcesAttributes = {
     "function": {
+        "ehailingapp2cf216052cf21605PostConfirmation": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
         "ehailingapp2cf216052cf21605CustomMessage": {
             "Name": "string",
             "Arn": "string",

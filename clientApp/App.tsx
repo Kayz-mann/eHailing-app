@@ -15,58 +15,69 @@ import { withAuthenticator } from 'aws-amplify-react-native';
 
 function App({ user }: any) {
   navigator.geolocation = require('@react-native-community/geolocation');
-  const androidPermissions = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "eHailing App Camera Permission",
-          message: "eHailing App needs access to your location" +
-            "so you can take awesome rides.",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the location");
-      } else {
-        console.log("Camera permissions denied");
-      }
-  } catch (err) {
-       console.warn(err)
-    }
-  }
+  // const mockNavigator = {
+  //   geolocation: {
+  //     getCurrentPosition: () => {
+  //      require('@react-native-community/geolocation');
+  //     },
+  //   }
+  // };
 
-  useEffect(() => {
-    let isMounted = true;
-    if (Platform.OS === 'android') {
-      if (isMounted) (androidPermissions());   
-    } else {
-      //ios permission
-      Geolocation.requestAuthorization();
-      return () => { isMounted = false };
-    }
-  });
+  // (window as any).navigator = mockNavigator;   
 
-  
-    // useEffect(() => {
-    //   let isMounted = true;
-    //   if (Platform.OS === 'android') {
-    //     if (isMounted) {
-    //       androidPermissions();
-    //     }
-    //   }
-    //   Geolocation.requestAuthorization();
-    //   return () => { isMounted = false };
-    // }, [])
+  // const androidPermissions = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: "eHailing App Camera Permission",
+  //         message: "eHailing App needs access to your location" +
+  //           "so you can take awesome rides.",
+  //         buttonNeutral: "Ask Me Later",
+  //         buttonNegative: "Cancel",
+  //         buttonPositive: "OK"
+  //       }
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       console.log("You can use the location");
+  //     } else {
+  //       console.log("Camera permissions denied");
+  //     }
+  //   } catch (err) {
+  //     console.warn(err)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   if (Platform.OS === 'android') {
+  //     if (isMounted) (androidPermissions());
+  //   } else {
+  //     //ios permission
+  //     Geolocation.requestAuthorization();
+  //     return () => { isMounted = false };
+  //   }
+  // });
 
 
-    // 1:21:08
-  
 
-   return (
-     <SafeAreaProvider>
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   if (Platform.OS === 'android') {
+  //     if (isMounted) {
+  //       androidPermissions();
+  //     }
+  //   }
+  //   Geolocation.requestAuthorization();
+  //   return () => { isMounted = false };
+  // }, [])
+
+
+  // 1:21:08
+
+
+  return (
+    <SafeAreaProvider>
       <Navigation />
       <StatusBar style="auto" />
     </SafeAreaProvider>
@@ -82,9 +93,9 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default App
+export default App
 
-export default withAuthenticator(App);
+// export default withAuthenticator(App);
 
 // add amplify project
 // setup auth

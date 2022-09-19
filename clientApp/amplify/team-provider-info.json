@@ -13,21 +13,18 @@
       "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-ehailingapp-dev-12454-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
+      "auth": {
+        "ehailingapp2cf216052cf21605": {}
+      },
       "function": {
         "ehailingapp2cf216052cf21605PostConfirmation": {
           "deploymentBucketName": "amplify-ehailingapp-dev-12454-deployment",
           "s3Key": "amplify-builds/ehailingapp2cf216052cf21605PostConfirmation-54644e6d417571724e69-build.zip"
         },
         "ehailingapp2cf216052cf21605CustomMessage": {
-          "REDIRECTURL": "",
-          "EMAILSUBJECT": "",
-          "EMAILMESSAGE": "",
           "deploymentBucketName": "amplify-ehailingapp-dev-12454-deployment",
           "s3Key": "amplify-builds/ehailingapp2cf216052cf21605CustomMessage-6e6e2f7030416246416c-build.zip"
         }
-      },
-      "auth": {
-        "ehailingapp2cf216052cf21605": {}
       }
     }
   }
